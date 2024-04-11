@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="shadow-wrap">
+<div class="container">
+
+    <h1>Ask me anything</h1>
+    <form method="POST" id="question-form">
+        {% csrf_token %}
+        <input type="text" name="question" placeholder="Talk to me">
+        <button type="submit">Submit</button>
+    </form>
+    <div id="response"></div>
+    <br>
+    <br>
+    <a href="{% url 'base:home' %}" style="color: #26326b; font-size: 25px; text-decoration: none;">Go to Home</a>
+
+    <script>
+        document.getElementById('question-form').addEventListener('submit', function(event) {
+          event.preventDefault();
+          var question = document.querySelector('input[name="question"]').value;
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '{% url 'base:ask_question' %}', true);
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.onload = function() {
+            if (xhr.status === 200) {
+              var response = JSON.parse(xhr.responseText);
+              document.getElementById('response').textContent = response.response;
+            } else {
+              console.error('Error', xhr.statusText);
+            }
+          };
+          xhr.send(encodeURI('question=' + question + '&csrfmiddlewaretoken=' + document.querySelector('input[name=csrfmiddlewaretoken]').value));
+        });
+      </script>
+</div>
+</div>
+
+
+
+
+{% endblock content %}

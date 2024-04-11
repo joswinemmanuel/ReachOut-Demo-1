@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="shadow-wrap">
+<div class="container">
+    <h1>Welcome to the home page</h1>
+    <br>
+    <br>
+    <br>
+    <a class="signup-link" href="{% url "base:logout" %}">logout</a>
+    <br>
+    <br>
+    <a href="{% url 'base:ask_question' %}" style="color: #26326b; font-size: 25px; text-decoration: none;">Chatbot</a>
+</div>
+</div>
+
+
+{% endblock content %}
